@@ -10,7 +10,7 @@ import static org.hamcrest.text.IsEmptyString.emptyString;
 public class MainTest {
 
     @Test
-    @DisplayName("Проверка создания объектов прогресса")
+    @DisplayName("Checking Progress Object Creation")
     public void testGameProgressCreation() {
         GameProgress save1 = new GameProgress(100, 1, 1, 100);
         GameProgress save2 = new GameProgress(90, 2, 2, 200);
