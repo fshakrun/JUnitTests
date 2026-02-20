@@ -1,6 +1,7 @@
+package ru.netology;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.netology.GameProgress;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
@@ -19,12 +20,11 @@ public class MainTest {
         assertThat(save1.toString(), not(emptyString()));
         assertThat(save2.toString(), not(emptyString()));
 
-
         // Значения в наличии
         assertThat(save1.toString(), containsString("health=100"));
         assertThat(save2.toString(), containsString("health=90"));
         assertThat(save1.toString(), containsString("weapons=1"));
         assertThat(save2.toString(), containsString("weapons=2"));
-
     }
 }
+

@@ -1,6 +1,7 @@
+package ru.netology;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.netology.GameProgress;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AllOf.allOf;
@@ -23,3 +24,4 @@ public class GameProgressTest {
         ));
     }
 }
+
