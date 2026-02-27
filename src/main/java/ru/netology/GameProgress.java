@@ -3,27 +3,34 @@ package ru.netology;
 import java.io.Serializable;
 
 public class GameProgress implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     private int health;
     private int weapons;
-    private int lvl;
+    private int level;
     private double distance;
 
-    public GameProgress(int health, int weapons, int lvl, double distance) {
+    public GameProgress(int health, int weapons, int level, double distance) {
         this.health = health;
         this.weapons = weapons;
-        this.lvl = lvl;
+        this.level = level;
         this.distance = distance;
     }
 
-    @Override
-    public String toString() {
-        return "GameProgress{" +
-                "health=" + health +
-                ", weapons=" + weapons +
-                ", lvl=" + lvl +
-                ", distance=" + distance +
-                '}';
+    // Теперь тут есть геттеры
+    
+    public int getHealth() {
+        return health;
+    }
+
+    public int getWeapons() {
+        return weapons;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public double getDistance() {
+        return distance;
     }
 }

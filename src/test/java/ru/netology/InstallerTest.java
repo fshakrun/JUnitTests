@@ -2,56 +2,57 @@ package ru.netology;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class InstallerTest {
+class InstallerTest {
+
+    @TempDir
+    Path tempDir;
 
     @Test
-    @DisplayName("Installer.install() test")
-    public void testInstallMethodInvocation() {
+    @DisplayName("Installer should create full project structure and write log")
+    void install_shouldCreateStructureAndLog() throws IOException {
+
+        // Подменяем путь установки
+        Installer.installPath = tempDir.toString();
 
         // Вызов
-        Installer installer = new Installer();
-        installer.install(); 
+        Installer.install();
 
-        // Наличие папок
-        File baseDir = new File(Installer.installPath);
-        assertThat(new File(baseDir, "src").exists(), is(true));
-        assertThat(new File(baseDir, "res").exists(), is(true));
-        assertThat(new File(baseDir, "savegames").exists(), is(true));
-        assertThat(new File(baseDir, "temp").exists(), is(true));
+        // Проверка корневых директорий
+        assertTrue(Files.isDirectory(tempDir.resolve("src")));
+        assertTrue(Files.isDirectory(tempDir.resolve("res")));
+        assertTrue(Files.isDirectory(tempDir.resolve("savegames")));
+        assertTrue(Files.isDirectory(tempDir.resolve("temp")));
+
+        // Проверка src/main и src/test
+        assertTrue(Files.isDirectory(tempDir.resolve("src/main")));
+        assertTrue(Files.isDirectory(tempDir.resolve("src/test")));
+
+        // Проверка файлов в main
+        assertTrue(Files.isRegularFile(tempDir.resolve("src/main/Main.java")));
+        assertTrue(Files.isRegularFile(tempDir.resolve("src/main/Utils.java")));
+
+        // Проверка папок в res
+        assertTrue(Files.isDirectory(tempDir.resolve("res/drawables")));
+        assertTrue(Files.isDirectory(tempDir.resolve("res/vectors")));
+        assertTrue(Files.isDirectory(tempDir.resolve("res/icons")));
+
+        // Проверка лога
+        Path logPath = tempDir.resolve("temp/temp.txt");
+        assertTrue(Files.isRegularFile(logPath));
+
+        String content = Files.readString(logPath);
+
+        assertNotNull(content);
+        assertFalse(content.isBlank());
+        assertTrue(content.contains("src"));
+        assertTrue(content.contains("Main.java"));
     }
-
-    @Test
-    @DisplayName("Installation Path Test")
-    public void testInstallPath() {
-
-        String path = Installer.installPath;
-
-        // Путь не пустой
-        assertThat(path, notNullValue());
-
-        // Точное совпадение
-        assertThat(path, equalTo("C:\\Users\\admin\\IdeaProjects"));
-
-        // Путь содержит ту или иную папку
-        assertThat(path, containsString("admin"));
-        assertThat(path, containsString("IdeaProjects"));
-
-        // Путь начинается с определенного значения
-        assertThat(path, startsWith("C:\\Users"));
-
-        // Путь заканчивается на определенное значение
-        assertThat(path, endsWith("IdeaProjects"));
-
-        // Путь не содержит определенных значений
-        assertThat(path, not("D:\\Users\\admin\\IdeaProjects"));
-    }
-
 }
-
